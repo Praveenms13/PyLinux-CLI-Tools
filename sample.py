@@ -23,18 +23,15 @@ def save_log():
         aqi_2_5, aqi_10 = conv_aqi(pmt_2_5, pmt_10)
         dt = datetime.now()
         log.write("{}, {}, {}, {}, {}\n".format(dt, pmt_2_5, pmt_10, aqi_2_5, aqi_10))
-        sensor_data = (dt, pmt_2_5, pmt_10, aqi_2_5, aqi_10)
         log.close()
 
 def threadFunc():
-    t1 = threading.Thread(target=save_log)
-    t1.start()
     sensor_data1 = "dt"
     sensor_data2 = "pmt_2_5"
     sensor_data3 = "pmt_10"
     sensor_data4 = "aqi_2_5"
     sensor_data5 = "aqi_10"
-    t2 = threading.Thread(target=toMySql, args=(sensor_data1, sensor_data2, sensor_data3, sensor_data4, sensor_data5))
-    t2.start()
+    threading.Thread(target=save_log).start()
+    threading.Thread(target=toMySql, args=(sensor_data1, sensor_data2, sensor_data3, sensor_data4, sensor_data5)).start()
 
 
